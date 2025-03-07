@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobseekers Sign In</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body data-role="jobseeker">
+    
+    <div class="container"  id="auth-container"></div>
+
+    <script src="../js/components.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("auth-container").innerHTML = loadAuthForm("jobseeker");
+        });
+    </script>
+
+</body>
+</html>

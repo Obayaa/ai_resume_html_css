@@ -75,7 +75,7 @@ input {
 .signup-btn {
   width: 100%;
   padding: var(--padding-medium);
-  background-color: var(--primary-color);
+  background-color: var(--danger-color);
   color: var(--white-color);
   border: none;
   margin-top: var(--margin-medium);
@@ -87,15 +87,16 @@ input {
 
 .signin-btn:hover,
 .signup-btn:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--darker-red-color);
 }
 
 .secondary-btn {
   width: 100%;
   padding: var(--padding-medium);
-  background-color: var(--secondary-color);
-  color: var(--white-color);
-  border: none;
+  background-color: var(--white-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  /* border: none; */
   margin-top: var(--margin-small);
   cursor: pointer;
   font-size: var(--font-size-medium);
@@ -105,6 +106,7 @@ input {
 
 .secondary-btn:hover {
   background-color: var(--primary-color);
+  color: var(--white-color);
 }
 #header, #footer{
     width: 100%;

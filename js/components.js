@@ -8,6 +8,7 @@ function loadAuthForm(type) {
     const switchText = type === "employer" ? "Are you a Jobseeker?" : "Are you an Employer?";
     const switchPath = type === "employer" ? "jobseekers-signin.html" : "employers-signin.html";
     const signUpPath = type === "employer" ? "employers-signup.html" : "jobseekers-signup.html";
+    const profilePath = type === "employer" ? "employers-profile.html" : "jobseekers-profile.html";
 
     return `
         
@@ -25,7 +26,7 @@ function loadAuthForm(type) {
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="Enter Password" required>
 
-            <button type="submit" class="signin-btn">SIGN IN</button>
+            <button type="submit" onclick="window.location.href='${profilePath}'" class="signin-btn">SIGN IN</button>
         </form>
 
         <div class="auth-box">
@@ -71,7 +72,7 @@ function loadSignUpForm(type) {
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="Enter Password" required>
 
-            <button type="submit" class="signup-btn">REGISTER</button>
+            <button type="submit" onclick="location.href='${signInPath}'" class="signup-btn">REGISTER</button>
         </form>
 
         <div class="auth-box">

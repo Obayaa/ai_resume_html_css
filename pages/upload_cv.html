@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your CV</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/cv_upload.css">
+
+</head>
+
+<body data-role="jobseeker">
+
+    <div id="header"></div>
+
+    <div class="main-content">
+        <div class="cv_container" id="cv-container">
+            <h2>Add Your CV</h2>
+            <!-- Upload Section -->
+            <div id="upload-section" class="upload-box active">
+                <p>Complete your profile by adding your CV</p>
+                <label for="cv-upload">Upload CV File (PDF or Word. Max 500KB)</label>
+                <input type="file" id="cv-upload" accept=".pdf, .doc, .docx">
+                <button class="cv_btn" onclick="uploadCV()">SUBMIT</button>
+            </div>
+            <!-- Success Message Section -->
+            <div id="success-section" class="success-message">
+                <p>Your CV was successfully uploaded. Thanks for completing your profile.</p>
+                <p>You can now apply to jobs of your choice.</p>
+                <button class="cv_btn" onclick="goHome()">GO TO HOME</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+
+    <script src="../js/header.js"></script>
+    <script src="../js/footer.js"></script>
+    <script>
+        function uploadCV() {
+            let fileInput = document.getElementById("cv-upload");
+
+            if (fileInput.files.length === 0) {
+                alert("Please select a file to upload.");
+                return;
+            }
+
+            // Simulate upload process
+            document.getElementById("upload-section").classList.remove("active");
+            document.getElementById("success-section").classList.add("active");
+        }
+
+        function goHome() {
+            window.location.href = "../pages/jobseekers-dashboard.html"; // Redirect to home page
+        }
+    </script>
+
+</body>
+
+</html>

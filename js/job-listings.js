@@ -45,21 +45,21 @@ function initializeJobListings() {
     }
 }
 
-function loadSidebar() {
-    fetch("../components/sidebar.html")
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("sidebar").innerHTML = data;
-            // Highlight active sidebar link
-            const sidebarLinks = document.querySelectorAll(".nav-item");
-            sidebarLinks.forEach(link => {
-                if (link.getAttribute("href").includes("job-listings.html")) {
-                    link.classList.add("active");
-                }
-            });
-        })
-        .catch(error => console.error("Error loading sidebar:", error));
-}
+// function loadSidebar() {
+//     fetch("../components/sidebar.html")
+//         .then(response => response.text())
+//         .then(data => {
+//             document.getElementById("sidebar").innerHTML = data;
+//             // Highlight active sidebar link
+//             const sidebarLinks = document.querySelectorAll(".nav-item");
+//             sidebarLinks.forEach(link => {
+//                 if (link.getAttribute("href").includes("job-listings.html")) {
+//                     link.classList.add("active");
+//                 }
+//             });
+//         })
+//         .catch(error => console.error("Error loading sidebar:", error));
+// }
 
 // Functions for rendering jobs and setting up action buttons
 function renderJobs(jobs) {
@@ -211,6 +211,27 @@ window.addEventListener('pageshow', function(event) {
         initializeJobListings();
     }
 });
+
+// In job-listings.js, add this at the bottom (before or along with the existing exports)
+window.loadJobListings = function() {
+    console.log("loadJobListings called");
+    try {
+        // Make sure JobDataService is available
+        if (typeof JobDataService === 'undefined') {
+            console.error("JobDataService is not defined. Loading jobs failed.");
+            return;
+        }
+
+        const jobs = JobDataService.loadJobs();
+        console.log("Jobs loaded:", jobs);
+
+        // Use the already defined renderJobs function
+        window.JobListings.renderJobs(jobs);
+    } catch (error) {
+        console.error("Error in loadJobListings:", error);
+    }
+};
+
 
 // Make functions available to other modules
 window.JobListings = {

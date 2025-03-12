@@ -592,3 +592,97 @@ body {
     display: none;
   }
 }
+
+
+/* Loading and error states */
+.loading-message, .error-message, .no-jobs-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #3498db;
+  animation: spin 1s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+.error-message {
+  color: #e74c3c;
+}
+
+.no-jobs-message a {
+  color: #3498db;
+  text-decoration: underline;
+}
+
+.multi-item-section {
+  margin-bottom: 1.5rem;
+}
+
+.item-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.item-input-container input {
+  flex-grow: 1;
+}
+
+.add-item-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.add-item-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.items-list {
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-height: 50px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.item-chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: 16px;
+  padding: 4px 12px;
+  margin: 4px;
+  font-size: 14px;
+}
+
+.remove-item {
+  margin-left: 6px;
+  cursor: pointer;
+  color: #666;
+  font-weight: bold;
+}
+
+.remove-item:hover {
+  color: #ff3333;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

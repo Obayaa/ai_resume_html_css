@@ -1,5 +1,20 @@
 {
-    "categories": [
+  "categories": [
+      "Information Technology",
+      "Finance",
+      "Healthcare",
+      "Education",
+      "Manufacturing",
+      "Construction",
+      "Retail",
+      "Transportation",
+      "Hospitality",
+      "Media & Entertainment",
+      "Agriculture",
+      "Telecommunication",
+      "Energy & Utilities",
+      "Legal",
+      "Real Estate",
       "Accounting",
       "Web Development",
       "Graphic Design",
@@ -9,9 +24,8 @@
       "Human Resources",
       "Project Management",
       "UI/UX Design",
-      "Finance",
       "Sales",
-      "Customer Support"
-    ]
-  }
-  
+      "Customer Support",
+      "Other"
+  ]
+}

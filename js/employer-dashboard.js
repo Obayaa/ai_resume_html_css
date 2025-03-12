@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSidebar();
 
     // Initialize job posting form
-    setupJobPostingForm();
+    // setupJobPostingForm();
 
     // Toggle mobile sidebar
     setupSidebarToggle();
@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setTimeout(highlightActiveLink, 100); // Short delay to ensure sidebar is loaded
 });
+
+
+
 
 function loadSidebar() {
     // Directly insert the sidebar HTML instead of fetching it
@@ -117,7 +120,7 @@ function loadContent(page) {
 
 function initializeCurrentPageContent() {
     // Setup job posting form for new job page
-    setupJobPostingForm();
+    // setupJobPostingForm();
 
     // Initialize job listings if we're on the job listings page
     if (window.location.pathname.includes("employer-job-listings.html")) {
@@ -196,30 +199,30 @@ function updateActiveLink(activeLink, sidebarLinks) {
     activeLink.classList.add("active");
 }
 
-function setupJobPostingForm() {
-    const jobPostingForm = document.getElementById("jobPostingForm");
-    if (jobPostingForm) {
-        jobPostingForm.addEventListener("submit", function (event) {
-            event.preventDefault();
+// function setupJobPostingForm() {
+//     const jobPostingForm = document.getElementById("jobPostingForm");
+//     if (jobPostingForm) {
+//         jobPostingForm.addEventListener("submit", function (event) {
+//             event.preventDefault();
 
-            const formData = new FormData(jobPostingForm);
-            const jobData = {};
+//             const formData = new FormData(jobPostingForm);
+//             const jobData = {};
 
-            for (const [key, value] of formData.entries()) {
-                jobData[key] = value;
-            }
+//             for (const [key, value] of formData.entries()) {
+//                 jobData[key] = value;
+//             }
 
-            if (!jobData.jobTitle || !jobData.jobDescription) {
-                alert("Please fill in all required fields");
-                return;
-            }
+//             if (!jobData.jobTitle || !jobData.jobDescription) {
+//                 alert("Please fill in all required fields");
+//                 return;
+//             }
 
-            console.log("Job posting data:", jobData);
-            alert("Job posted successfully!");
-            jobPostingForm.reset();
-        });
-    }
-}
+//             console.log("Job posting data:", jobData);
+//             alert("Job posted successfully!");
+//             jobPostingForm.reset();
+//         });
+//     }
+// }
 
 function setupSidebarToggle() {
     document.addEventListener("click", function (event) {

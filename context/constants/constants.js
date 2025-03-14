@@ -11,7 +11,7 @@ const retrieveToken = () => {
 
 const API_URL = {
     get: async (url, authRequired = true) => {
-        try {
+        try {Z
             let headers = {}
             let TOKEN = retrieveToken();
 

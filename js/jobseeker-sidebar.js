@@ -51,7 +51,7 @@ function loadJobseekerSidebar() {
                 </a>
             </li>
             <li>
-                <a href="/pages/jobseeker-my-jobs.html" class="nav-item">
+                <a href="/pages/my_jobs.html" class="nav-item">
                     <span class="icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -75,7 +75,7 @@ function loadJobseekerSidebar() {
                 </a>
             </li>
             <li>
-                <a href="/pages/jobseeker-profile.html" class="nav-item">
+                <a href="/pages/my_profile.html" class="nav-item">
                     <span class="icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -89,6 +89,18 @@ function loadJobseekerSidebar() {
                 </a>
             </li>
         </ul>
+        <div class="sidebar-footer">
+            <a href="#" id="logout-btn" class="nav-item logout-btn">
+                <span class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span>Logout</span>
+            </a>
+        </div>
     </nav>
 </aside>`;
 
@@ -97,6 +109,7 @@ function loadJobseekerSidebar() {
         sidebarContainer.innerHTML = sidebarHTML;
         console.log("Jobseeker sidebar manually inserted into #sidebar.");
         setupSidebarNavigation();
+        setupLogoutButton();
         highlightActiveLink();
     }
 }
@@ -117,6 +130,22 @@ function setupSidebarNavigation() {
     });
 }
 
+function setupLogoutButton() {
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            // Clear user data from localStorage
+            localStorage.removeItem("user");
+            
+            // Redirect to login page
+            window.location.href = "../pages/jobseekers-signin.html";
+            
+            console.log("User logged out successfully");
+        });
+    }
+}
 function loadContent(page) {
     // This fetches the HTML for the page
     fetch(page)
@@ -138,7 +167,18 @@ function loadContent(page) {
 
                 // If the page is the Browse Jobs page, initialize job listings
                 if (window.location.pathname.includes("jobseeker-browse-jobs.html")) {
+                    window.location.reload();
                     initializeJobBrowsing();  // Add this line to initialize job browsing
+                }
+
+                if (window.location.pathname.includes("my_profile.html")) {
+                    window.location.reload();
+                    // initializeJobBrowsing();  // Add this line to initialize job browsing
+                }
+
+                if (window.location.pathname.includes("my_jobs.html")) {
+                    window.location.reload();
+                    // initializeJobBrowsing();  // Add this line to initialize job browsing
                 }
             }
         })
@@ -147,44 +187,6 @@ function loadContent(page) {
 
 function initializeJobBrowsing() {
     console.log("Initializing job browsing page...");
-
-    // Fetch jobs from the local jobs.json file
-    // fetch('/models/jobs.json')  // Adjust this path if necessary
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         const jobListContainer = document.querySelector(".jobs-list"); // Ensure this element exists in your page
-    //         if (jobListContainer && Array.isArray(data)) {
-    //             // Clear any previous job listings
-    //             jobListContainer.innerHTML = '';
-
-    //             // Loop through each job and append it to the list
-    //             data.forEach(job => {
-    //                 const jobItem = document.createElement("div");
-    //                 jobItem.classList.add("job-item");
-
-    //                 jobItem.innerHTML = `
-    //                     <h3>${job.title}</h3>
-    //                     <p><strong>Company:</strong> ${job.company}</p>
-    //                     <p><strong>Location:</strong> ${job.location}</p>
-    //                     <p><strong>Type:</strong> ${job.type}</p>
-    //                     <p><strong>Experience:</strong> ${job.experience}</p>
-    //                     <p><strong>Salary:</strong> ${job.salary}</p>
-    //                     <p>${job.shortDescription}</p>
-    //                     <a href="/jobs/${job.id}" class="apply-btn">Apply Now</a>
-    //                 `;
-    //                 jobListContainer.appendChild(jobItem);
-    //             });
-    //         } else {
-    //             jobListContainer.innerHTML = "<p>No jobs available at the moment.</p>";
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error("Error fetching job listings:", error);
-    //         const jobListContainer = document.querySelector(".job-list");
-    //         if (jobListContainer) {
-    //             jobListContainer.innerHTML = "<p>Error loading job listings. Please try again later.</p>";
-    //         }
-    //     });
 }
 
 

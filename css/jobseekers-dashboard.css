@@ -38,6 +38,7 @@ body {
 .dashboard-container {
   display: flex;
   min-height: 100vh;
+
 }
 
 /* SIDEBAR STYLING */
@@ -50,6 +51,11 @@ body {
   z-index: 10;
 }
 
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .jobseeker-profile {
   display: flex;
   align-items: center; 
@@ -76,6 +82,12 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+  .dashboard-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* justify-content: space-between; */
   }
   
   .dashboard-nav .nav-item {
@@ -111,6 +123,17 @@ body {
   .dashboard-nav .nav-item svg {
     width: 20px;
     height: 20px;
+  }
+  .logout-btn{
+    color: var(--danger-color);
+    /* color: white; */
+    border: none;
+    /* border-radius: 5px; */
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
   }
 
 /* MAIN CONTENT STYLING */
@@ -697,6 +720,28 @@ body {
   gap: 1rem;
   justify-content: flex-end;
 }
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 40%;
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 1;
+  transition: opacity 0.5s;
+  z-index: 10000;
+}
+
+.toast.success { background: #4CAF50; }  /* Green */
+.toast.error { background: #F44336; }   /* Red */
+.toast.info { background: #2196F3; }    /* Blue */
+
+.toast.fade-out {
+  opacity: 0;
+}
+
 
 /* Responsive styles */
 @media (max-width: 768px) {

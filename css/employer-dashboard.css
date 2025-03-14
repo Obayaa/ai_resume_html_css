@@ -8,7 +8,7 @@ body {
 /* Container layout */
 .dashboard-container {
   display: flex;
-  min-height: calc(100vh - 350px);
+  min-height: 100vh
 }
 
 /* Sidebar styles */

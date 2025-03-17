@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let appliedJobs = [];
 
     function init() {
-        // fetchSavedJobs();
+        fetchSavedJobs();
         fetchAppliedJobs();
     }
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/saved-jobs", {
+            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/jobs/saved/uniqueid1", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

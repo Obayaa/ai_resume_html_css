@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const lname = document.getElementById("lname").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
-        const errorMessage = documeznt.getElementById("error-message");
+        const errorMessage = document.getElementById("error-message");
 
         errorMessage.textContent = "";
 
@@ -84,8 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        if (password.length < 6) {
-            errorMessage.textContent = "Password must be at least 6 characters long.";
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        if (!passwordPattern.test(password)) {
+            errorMessage.textContent = "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.";
             return;
         }
 

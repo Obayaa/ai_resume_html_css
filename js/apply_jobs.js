@@ -396,6 +396,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    saveJobButton.addEventListener('click', async function () {
+        
+        
+    })
 
 
 

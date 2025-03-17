@@ -112,7 +112,7 @@ async function fetchUserDetails() {
 
     // First, try to update from localStorage
     if (user) {
-        nameElement.textContent = user.first_name || "Jobseeker";
+        nameElement.textContent = user.company_name || "Jobseeker";
         roleElement.textContent = user.user_role || "Jobseeker";
     }
 
@@ -123,29 +123,6 @@ async function fetchUserDetails() {
         return;
     }
 
-    try {
-        const response = await fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/user/${user.user_id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${user.token}`
-            }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            nameElement.textContent = data.user.first_name || "Jobseeker";
-            roleElement.textContent = data.user.user_role || "Jobseeker";
-
-            // Save updated details in localStorage for future use
-            localStorage.setItem("user", JSON.stringify(data.user));
-        } else {
-            throw new Error(data.message || "Failed to fetch user details");
-        }
-    } catch (error) {
-        console.error("Error fetching user details:", error);
-    }
 }
 
 
@@ -160,7 +137,7 @@ function setupLogoutButton() {
             localStorage.removeItem("user");
             
             // Redirect to login page
-            window.location.href = "/pages/employers-signin.html";
+            window.location.href = "employers-signin.html";
             
             console.log("User logged out successfully");
         });

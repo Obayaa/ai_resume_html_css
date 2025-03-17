@@ -119,6 +119,9 @@ function setupSidebarNavigation() {
 
     sidebarLinks.forEach(link => {
         link.addEventListener("click", function (event) {
+            // Prevent page loading logic for the logout button
+            if (this.id === "logout-btn") return;
+
             event.preventDefault();
 
             const targetPage = this.getAttribute("href");
@@ -130,22 +133,25 @@ function setupSidebarNavigation() {
     });
 }
 
+
 function setupLogoutButton() {
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
-        logoutBtn.addEventListener("click", function(event) {
+        logoutBtn.addEventListener("click", function (event) {
             event.preventDefault();
-            
+
+            console.log("User logged out successfully");
             // Clear user data from localStorage
             localStorage.removeItem("user");
-            
+
             // Redirect to login page
             window.location.href = "../pages/jobseekers-signin.html";
-            
-            console.log("User logged out successfully");
+
         });
     }
 }
+
+
 function loadContent(page) {
     // This fetches the HTML for the page
     fetch(page)

@@ -272,10 +272,6 @@ function applyFilters() {
     renderPagination();
 }
 
-// Apply for job
-// function applyForJob(jobId) {
-//     alert('Job saved to your profile!');
-// }
 
 // Save job
 function saveJob(jobId) {
@@ -396,11 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    saveJobButton.addEventListener('click', async function () {
-        
-        
-    })
-
 
 
 
@@ -418,9 +409,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    saveJobButton.addEventListener('click', () => {
-        const jobId = saveJobButton.getAttribute('data-job-id');
-        saveJob(jobId);
+    const saveJobButton = document.getElementById("save-job-button");
+    saveJobButton.addEventListener("click", async function () {
+        const jobId = saveJobButton.getAttribute("data-job-id");
+
+        console.log("Saving the Job with Job ID:", jobId); // ✅ Debugging
+
+        if (!jobId || jobId === "undefined") {
+            console.error("No valid job ID found for application.");
+            showToast("Error: No job ID found.", "error");
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || !user.user_id) {
+            showToast("Please sign in to save these jobs.", "error");
+            window.location.href = "../pages/jobseekers-signin.html";
+            return;
+        }
+
+        saveJobButton.disabled = true; // Prevent multiple clicks
+
+        const saveData = {
+            job_id: jobId,
+            user_id: user.user_id,
+            // application_status: "new",
+        };
+
+        try {
+            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/job/save", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${user.token}`
+                },
+                body: JSON.stringify(saveData),
+            });
+
+            const data = await response.json();
+            console.log("Server Response:", data); // ✅ Debug response
+
+            if (data.status_code === "AR00") {
+                showToast("Job application saved successfully!", "success");
+                fetchJobs(); // 🔄 Refresh job list after applying
+            } else if (data.status_code === "AR05") {
+                showToast("You have already saved this job.", "warning");
+            } else {
+                showToast(data.message || "Failed to save the job.", "error");
+            }
+        } catch (error) {
+            showToast("Network error. Please try again later.", "error");
+            console.error("Error:", error);
+        } finally {
+            saveJobButton.disabled = false;
+        }
     });
 });
 

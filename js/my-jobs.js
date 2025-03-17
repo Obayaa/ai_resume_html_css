@@ -47,12 +47,17 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchSavedJobs() {
         try {
             const user = JSON.parse(localStorage.getItem("user"));
+
+            // Ensure user exists and has a valid user_id
             if (!user || !user.user_id) {
                 console.warn("Please sign in to view saved jobs.");
                 return;
             }
 
-            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/jobs/saved/uniqueid1", {
+            const user_id = user.user_id; // Extract user_id correctly
+
+            savedJobsList.innerHTML = '<div class="loading-spinner"></div>';
+            const response = await fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/jobs/saved/${user_id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,13 +66,50 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             if (!response.ok) throw new Error("Failed to fetch saved jobs.");
+
             const data = await response.json();
-            savedJobs = data.saved_jobs || [];
-            // loadSavedJobs();
+            let savedJobs = data.saved_jobs || [];
+            console.log("Saved Jobs:", savedJobs); // Debugging purpose
+
+            // Call function to display saved jobs if needed
+            savedJobs = savedJobs.map(app => {
+                console.log("app: ", app)
+                if (!app.job_details) {
+                    return {
+                        id: app.saved_job_id,
+                        title: "Application in Process",
+                        company: "Not specified",
+                        location: "Not specified",
+                        salary: "Not specified",
+                        type: "Not specified",
+                        applied: app.created_at,
+                        status: app.status.toLowerCase(),
+                        description: "Application is being processed.",
+                        requirements: ["No details available at this time"]
+                    };
+                }
+                return {
+                    id: app.saved_job_id,
+                    title: app.job_details.title || "No Title",
+                    company: app.job_details.company_name || "Not specified",
+                    location: app.job_details.city && app.job_details.region ? `${app.job_details.city}, ${app.job_details.region}` : "Not specified",
+                    salary: app.job_details.salary ? `$${app.job_details.salary}` : "Not specified",
+                    type: app.job_details.contract_type || "Not specified",
+                    applied: app.created_at,
+                    status: app.status.toLowerCase(),
+                    description: app.job_details.description || "No description available.",
+                    requirements: app.job_details.requirements ?
+                        (typeof app.job_details.requirements === 'string' ? app.job_details.requirements.split('. ') : app.job_details.requirements) :
+                        ["No requirements specified"]
+                };
+            });
+            loadSavedJobs();
+
         } catch (error) {
             console.error("Error fetching saved jobs:", error);
         }
     }
+
 
     async function fetchAppliedJobs() {
         try {
@@ -77,8 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
+            const user_id = user.user_id;
+
             appliedJobsList.innerHTML = '<div class="loading-spinner"></div>';
-            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/applications", {
+            const response = await fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/applications/by-user/${user_id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!response.ok) throw new Error("Failed to fetch applied jobs.");
             const data = await response.json();
-            
+
             appliedJobs = data.applications.map(app => {
                 if (!app.job_details) {
                     return {
@@ -131,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadAppliedJobs() {
         appliedJobsList.innerHTML = ''; // Clear previous content
-    
+
         if (appliedJobs.length === 0) {
             noAppliedJobsMsg.style.display = 'block';
         } else {
@@ -142,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-    
+
 
     init();
 
@@ -151,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const jobCard = document.createElement('div');
         jobCard.className = 'job-card';
         jobCard.dataset.jobId = job.id;
-        console.log("Creating job card for:", job);
+        // console.log("Creating job card for:", job);
 
         // Common job details
         let cardContent = `

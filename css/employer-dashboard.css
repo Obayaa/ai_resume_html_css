@@ -408,6 +408,7 @@ body {
 
 .search-container input {
   width: 100%;
+  min-width: 0;
   padding: 10px 40px 10px 15px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;

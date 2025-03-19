@@ -40,6 +40,9 @@ body {
   min-height: 100vh;
 
 }
+#dashboard-role{
+  text-align: left;
+}
 
 /* SIDEBAR STYLING */
 #sidebar {

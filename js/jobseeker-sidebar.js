@@ -12,15 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeCurrentPageContent();
     // initializeJobBrowsing();
 
+    fetchUserDetails();
+
     setTimeout(highlightActiveLink, 100); // Short delay to ensure sidebar is loaded
 });
 
 function loadJobseekerSidebar() {
-
-    const user = JSON.parse(localStorage.getItem("user")) || {};
-    const fullName = user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : "Jobseeker";
-    const userRole = user.user_role || "Jobseeker";
-
     // Directly insert the sidebar HTML instead of fetching it
     const sidebarHTML = `<aside class="sidebar">
     <!-- Jobseeker Profile Section -->
@@ -29,8 +26,8 @@ function loadJobseekerSidebar() {
             <img src="../assets/lady.jpg" alt="Jobseeker Profile">
         </div>
         <div class="profile-info">
-            <h3>${fullName}</h3>
-            <p>${userRole}</p>
+            <h3 id="dashboard-name">Loading...</h3>
+            <p id="dashboard-role">Loading...</p>
         </div>
     </div>
 
@@ -111,6 +108,31 @@ function loadJobseekerSidebar() {
         setupSidebarNavigation();
         setupLogoutButton();
         highlightActiveLink();
+    }
+}
+
+async function fetchUserDetails() {
+    const user = JSON.parse(localStorage.getItem("user"))
+    console.log(user)
+
+    let nameElement = document.getElementById("dashboard-name");
+    let roleElement = document.getElementById("dashboard-role");
+
+    if (!nameElement || !roleElement){
+        console.warn("Dashboard elements not found. Skipping update.");
+        return;
+    }
+
+    if(user){
+        user.full_name = `${user.first_name} ${user.last_name}`;
+        nameElement.textContent = user.full_name || "Jane Doe";
+        roleElement.textContent = user.user_role || "Jobseeker"
+    }
+
+    if (!user || !user.user_id || !user.token) {
+        console.warn("User not found in localStorage. Redirecting to login...");
+        window.location.href = "../pages/jobseekers-signin.html"; // Redirect if user is missing
+        return;
     }
 }
 

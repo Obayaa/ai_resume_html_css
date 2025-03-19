@@ -112,14 +112,14 @@ async function fetchUserDetails() {
 
     // First, try to update from localStorage
     if (user) {
-        nameElement.textContent = user.company_name || "Jobseeker";
-        roleElement.textContent = user.user_role || "Jobseeker";
+        nameElement.textContent = user.company_name || "John Doe";
+        roleElement.textContent = user.user_role || "Employer";
     }
 
     // If user data is missing or incomplete, fetch from API
     if (!user || !user.user_id || !user.token) {
         console.warn("User not found in localStorage. Redirecting to login...");
-        window.location.href = "jobseeker-signin.html"; // Redirect if user is missing
+        window.location.href = "../pages/employers-signin.html"; // Redirect if user is missing
         return;
     }
 

@@ -203,6 +203,10 @@ function loadContent(page) {
                     window.location.reload();
                     // initializeJobBrowsing();  // Add this line to initialize job browsing
                 }
+                if (window.location.pathname.includes("jobseekers-dashboard.html")) {
+                    window.location.reload();
+                    // initializeJobBrowsing();  // Add this line to initialize job browsing
+                }
 
                 if (window.location.pathname.includes("my_jobs.html")) {
                     window.location.reload();

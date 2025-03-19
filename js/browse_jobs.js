@@ -1,3 +1,4 @@
+
 // State variables
 let allJobs = [];
 let filteredJobs = [];
@@ -27,17 +28,6 @@ const applyButton = document.getElementById('apply-button');
 const saveJobButton = document.getElementById('save-job-button');
 const closeModalButton = document.querySelector('.close');
 const jobDetailContent = document.getElementById('job-detail-content');
-
-
-
-
-async function fetchCompany_name() {
-    try {
-
-    } catch (error) {
-        console.error('Error Fetching company name')
-    }
-}
 
 
 
@@ -111,7 +101,7 @@ function renderJobs() {
             <div class="job-header">
                 <div>
                     <h3 class="job-title">${job.title || "No Title"}</h3>
-                    <div class="company-name">${job.company || "No Company"}</div>
+                    <div class="company-name">${job.company_name || "No Company"}</div>
                 </div>
 
                 <div class="salary">${job.salary ? `$${job.salary}` : "Not specified"}</div>
@@ -165,7 +155,7 @@ function openJobDetails(jobId) {
         <div class="job-detail-header">
             <h2>${job.title}</h2>
             <div class="company-detail">
-                <div class="company-name">${job.company || "No Company"}</div>
+                <div class="company-name">${job.company_name || "No Company"}</div>
                 <div class="company-location">${job.city}, ${job.region}</div>
             </div>
             <div class="job-highlight">
@@ -345,6 +335,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Get the job details from allJobs using the jobId
+        const job = allJobs.find(job => job.job_id === jobId);
+        console.log("job details: ", job);
+        if (!job) {
+            console.error("Job details not found for job ID:", jobId);
+            showToast("Error: Job details not found.", "error");
+            return;
+        }
+
         const user = JSON.parse(localStorage.getItem("user"));
         if (!user || !user.user_id) {
             showToast("Please sign in to apply for jobs.", "error");
@@ -354,10 +353,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         applyButton.disabled = true; // Prevent multiple clicks
 
+
         const applicationData = {
             job_id: jobId,
             user_id: user.user_id,
             application_status: "new",
+            employer_id: job.employer_id,
         };
 
         try {
@@ -368,19 +369,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     "Authorization": `Token ${user.token}`
                 },
                 body: JSON.stringify(applicationData),
+                mode: "cors"
             });
-
+            
             const data = await response.json();
             console.log("Server Response:", data); // ✅ Debug response
 
-            if (data.status_code === "AR00") {
-                showToast("Job application submitted successfully!", "success");
-                fetchJobs(); // 🔄 Refresh job list after applying
-            } else if (data.status_code === "AR05") {
-                showToast("You have already applied for this job.", "warning");
-            } else {
-                showToast(data.message || "Failed to apply for the job.", "error");
-            }
+           
+           if (data.status_code === "AR00") {
+            showToast(data.message)
+           } else {
+            showToast(data.message)
+           }
+           
         } catch (error) {
             showToast("Network error. Please try again later.", "error");
             console.error("Error:", error);

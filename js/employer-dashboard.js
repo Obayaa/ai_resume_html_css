@@ -130,15 +130,15 @@ async function fetchUserDetails() {
 function setupLogoutButton() {
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
-        logoutBtn.addEventListener("click", function(event) {
+        logoutBtn.addEventListener("click", function (event) {
             event.preventDefault();
-            
+
             // Clear user data from localStorage
             localStorage.removeItem("user");
-            
+
             // Redirect to login page
             window.location.href = "employers-signin.html";
-            
+
             console.log("User logged out successfully");
         });
     }
@@ -178,6 +178,39 @@ function loadContent(page) {
         .catch(error => console.error("Error loading content:", error));
 }
 
+// Add this function to employer-dashboard.js
+function fetchDashboardMetrics() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.token) {
+        console.error("User not logged in or token missing");
+        return;
+    }
+
+    fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/employer/dashboard-metrics`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Token ${user.token}`
+        },
+        body: JSON.stringify({ "employer_id": user.user_id }),
+        mode: "cors"
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Fetched metrics:", data);
+
+            const appliedJobsElement = document.querySelector(".metric-value.applied-jobs");
+            const activeJobsElement = document.querySelector(".metric-value.active-jobs");
+            const candidateElement = document.querySelector(".metric-value.candidate");
+
+            if (appliedJobsElement) appliedJobsElement.textContent = data.data.all_applications_count || 0;
+            if (activeJobsElement) activeJobsElement.textContent = data.data.active_jobs || 0;
+            if (candidateElement) candidateElement.textContent = data.data.qualified_candidates || 0; // Adjust this based on your API response
+        })
+        .catch(error => console.error("Error fetching metrics:", error));
+}
+
 function initializeCurrentPageContent() {
     // Setup job posting form for new job page
     // setupJobPostingForm();
@@ -186,6 +219,10 @@ function initializeCurrentPageContent() {
     if (window.location.pathname.includes("employer-job-listings.html")) {
         console.log("Initializing job listings page");
         initializeJobListings();
+    }
+    if (window.location.pathname.includes("employer-dashboard.html")) {
+        console.log("Welcome to Dashboard. reloading");
+        fetchDashboardMetrics();
     }
 }
 

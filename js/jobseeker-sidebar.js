@@ -112,28 +112,40 @@ function loadJobseekerSidebar() {
 }
 
 async function fetchUserDetails() {
-    const user = JSON.parse(localStorage.getItem("user"))
-    console.log(user)
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user); // This shows the user object exists
 
+    // Add debugging to see exactly which condition is failing
+    if (!user) {
+        console.warn("No user object found in localStorage");
+        window.location.href = "../pages/jobseekers-signin.html";
+        return;
+    }
+
+    if (!user.user_id) {
+        console.warn("No user_id found in user object");
+        window.location.href = "../pages/jobseekers-signin.html";
+        return;
+    }
+
+    if (!user.token) {
+        console.warn("No token found in user object");
+        // window.location.href = "../pages/jobseekers-signin.html";
+        return;
+    }
+
+    // If we reach here, we have a valid user
     let nameElement = document.getElementById("dashboard-name");
     let roleElement = document.getElementById("dashboard-role");
 
-    if (!nameElement || !roleElement){
+    if (!nameElement || !roleElement) {
         console.warn("Dashboard elements not found. Skipping update.");
         return;
     }
 
-    if(user){
-        user.full_name = `${user.first_name} ${user.last_name}`;
-        nameElement.textContent = user.full_name || "Jane Doe";
-        roleElement.textContent = user.user_role || "Jobseeker"
-    }
-
-    if (!user || !user.user_id || !user.token) {
-        console.warn("User not found in localStorage. Redirecting to login...");
-        window.location.href = "../pages/jobseekers-signin.html"; // Redirect if user is missing
-        return;
-    }
+    user.full_name = `${user.first_name} ${user.last_name}`;
+    nameElement.textContent = user.full_name || "Jane Doe";
+    roleElement.textContent = user.user_role || "Jobseeker";
 }
 
 function setupSidebarNavigation() {

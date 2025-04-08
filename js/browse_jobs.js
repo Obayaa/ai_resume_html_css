@@ -1,3 +1,4 @@
+//Browse Jobs Page Script - browse_jobs.js
 
 // State variables
 let allJobs = [];
@@ -39,7 +40,7 @@ async function fetchJobs() {
         allJobs = []; // 🔄 Clear old job data
         filteredJobs = [];
 
-        const response = await fetch('https://ai-resume-backend.axxendcorp.com/api/v1/jobs');
+        const response = await fetch(`${apiEndpoints.jobs}`);
         if (!response.ok) throw new Error('Failed to fetch jobs');
 
         const data = await response.json();
@@ -104,7 +105,7 @@ function renderJobs() {
                     <div class="company-name">${job.company_name || "No Company"}</div>
                 </div>
 
-                <div class="salary">${job.salary ? `$${job.salary}` : "Not specified"}</div>
+                <div class="salary">${job.salary ? `${job.salary}` : "Not specified"}</div>
             </div>
             <div class="job-details">
                 <div class="job-detail">
@@ -362,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/application/add", {
+            const response = await fetch(`${apiEndpoints.addApplication}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -438,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch("https://ai-resume-backend.axxendcorp.com/api/v1/job/save", {
+            const response = await fetch(`${apiEndpoints.saveJob}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         }
 
-        fetch("https://ai-resume-backend.axxendcorp.com/api/v1/signup", {
+        fetch(`${apiEndpoints.signup}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -151,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (result.success) {
                     localStorage.setItem("user", JSON.stringify(result.data));
+                    console.log(`${responseData.data}`);
                     alert(result.message);
                     window.location.href = userRole === "employer" ? "employers-signin.html" : "jobseekers-signin.html";
                 } else {

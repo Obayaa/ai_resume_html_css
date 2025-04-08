@@ -68,12 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = {
             email: email,
             password: password,
-            user_role: userRole // jobseeker, employer, admin
+            user_role: userRole
         };
 
         console.log("Sending login request with data:", data);
 
-        fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/login`, {
+        fetch(`${apiEndpoints.login}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -94,11 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Get the userId from the login response
                     const userId = result.data.user_id;
-                    console.log("User ID:", userId);
-                    console.log("Auth token:", result.data.token);
 
                     // Make a request to the users endpoint to check profile completion status
-                    return fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/users/${userId}`, {
+                    return fetch(`${apiEndpoints.user}/${userId}`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",

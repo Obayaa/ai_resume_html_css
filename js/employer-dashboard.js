@@ -1,3 +1,5 @@
+// import { apiEndpoints } from "../context/constants/apiEndpoints";
+
 document.addEventListener("DOMContentLoaded", async function () {
     // Load sidebar dynamically
     loadSidebar();
@@ -186,7 +188,10 @@ function fetchDashboardMetrics() {
         return;
     }
 
-    fetch(`https://ai-resume-backend.axxendcorp.com/api/v1/employer/dashboard-metrics`, {
+    console.log("Fetching dashboard metrics for user:", user.user_id);
+    console.log("API endpoint:", apiEndpoints.employerDashboardMetrics);
+
+    fetch(`${apiEndpoints.employerDashboardMetrics}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

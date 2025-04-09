@@ -335,7 +335,11 @@ body {
   font-size: 0.875rem;
   color: var(--text-medium);
 }
-
+.job-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .job-details {
   display: flex;
   flex-wrap: wrap;
@@ -353,7 +357,12 @@ body {
   padding: 4px 10px;
   border-radius: 999px;
 }
-
+.job-tags .skill{
+  color: var(--text-medium);
+  background-color: var(--bg-light);
+  padding: 4px 10px;
+  border-radius: 10px;
+}
 .job-card-footer {
   display: flex;
   justify-content: space-between;

@@ -47,15 +47,14 @@ body {
   object-fit: cover;
 }
 
-.profile-info h3 {
+.profile-info h5 {
   margin: 0;
-  font-size: 16px;
   color: var(--dark-color);
 }
 
 .profile-info p {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--secondary-color);
 }
 .dashboard-nav {

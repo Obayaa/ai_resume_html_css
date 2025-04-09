@@ -1,7 +1,4 @@
 // Job data management service
-
-// import { apiEndpoints } from "../context/constants/apiEndpoints";
-
 const JobDataService = {
 
     showToast: function (message, type) {

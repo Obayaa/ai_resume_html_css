@@ -124,7 +124,7 @@
 
 
     <!-- <div id="footer"></div> -->
-     <script src="../context/constants/apiEndpoints.js"></script>
+    <script src="../context/constants/apiEndpoints.js"></script>
     <script type="module">
         // import { apiEndpoints } from "../context/constants/apiEndpoints.js";
 
@@ -234,11 +234,11 @@
                 const user = JSON.parse(localStorage.getItem("user"));
 
                 try {
-                    const response = await fetch(`${apiEndpoints.updateUser}/${user.user_id}`, { // Replace with actual API URL
+                    const response = await fetch(`${apiEndpoints.updateUser}/${user.user_id}`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": `Token ${user?.token}` // Assuming token is stored in localStorage
+                            "Authorization": `Token ${user?.token}`
                         },
                         body: JSON.stringify(formData)
                     });
@@ -247,6 +247,15 @@
                     console.log("Response data:", JSON.stringify(data, null, 2)); // Debugging
 
                     if (response.ok) {
+                        // Update the local storage with new user data
+                        const updatedUser = {
+                            ...user,
+                            ...formData  // Add all the updated form fields
+                        };
+
+                        // Save the updated user data to localStorage
+                        localStorage.setItem("user", JSON.stringify(updatedUser));
+                        location.reload();
                         alert("Profile updated successfully!");
                     } else {
                         throw new Error(data.message || "Profile update failed");

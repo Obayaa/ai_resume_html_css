@@ -148,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(responseData => {
                 const result = handleApiResponse(responseData.status_code, responseData.data);
+                console.log("Processed signup result:", result);
 
                 if (result.success) {
                     localStorage.setItem("user", JSON.stringify(result.data));

@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!app.job_details) {
                     return {
                         id: app.saved_job_id,
-                        job_id: app.job_id,
+                        job_id: app.job_details.job_id,
                         title: "Application in Process",
                         company_name: "Not specified",
                         city: "Not specified",
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 return {
                     id: app.saved_job_id,
-                    job_id: app.job_id,
+                    job_id: app.job_details.job_id,
                     title: app.job_details.title || "No Title",
                     company_name: app.job_details.company_name || "Not specified",
                     city: app.job_details.city || "Not specified",
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!app.job_details) {
                     return {
                         id: app.application_id,
-                        job_id: app.job_id,
+                        job_id: app.job_details.job_id,
                         title: "Application in Process",
                         company_name: "Not specified",
                         city: "Not specified",
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 return {
                     id: app.application_id,
-                    job_id: app.job_id,
+                    job_id: app.job_details.job_id,
                     title: app.job_details.title || "No Title",
                     company_name: app.job_details.company_name || "Not specified",
                     city: app.job_details.city || "Not specified",
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h3>Required Skills</h3>
                     <div class="job-tags">
                     ${Array.isArray(job.required_skills) && job.required_skills.length ?
-                    job.required_skills.map(skill => `<span class="job-tag">${skill}</span>`).join('') :
+                    job.required_skills.map(skill => `<span class="skill job-tag">${skill}</span>`).join('') :
                     'Not specified'}
                     </div>
                 </div>
@@ -400,7 +400,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = `../pages/jobseeker-browse-jobs.html?jobId=${job.job_id}`;
             };
             removeSavedButton.onclick = () => {
-                removeSavedJob(job.id);
+                removeSavedJob(job.job_id);
+                console.log("job", job);
                 closeJobModal();
             };
         } else {
@@ -428,12 +429,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const response = await fetch(`${apiEndpoints.removeSavedJob}/${jobId}`, {
-                method: "DELETE",
+            const response = await fetch(`${apiEndpoints.removeSavedJob}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Token ${user.token}`
-                }
+                },
+                body: JSON.stringify({  job_id: jobId, user_id: user.user_id })
             });
 
             if (!response.ok) throw new Error("Failed to remove saved job.");
@@ -441,6 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Update the UI
             savedJobs = savedJobs.filter(job => job.id !== jobId);
             loadSavedJobs();
+            location.reload();
             showToast('Job removed from saved list', 'success');
         } catch (error) {
             console.error("Error removing saved job:", error);

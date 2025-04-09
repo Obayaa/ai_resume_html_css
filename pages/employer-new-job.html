@@ -204,23 +204,6 @@
     <script type="module">
         document.addEventListener("DOMContentLoaded", function () {
 
-            const user = JSON.parse(localStorage.getItem("user")) || {}; // Adjust this based on how you store employer details
-            console.log("User:", user);
-            // Check if the employerData has a companyName and set it
-            const employer_id = user.user_id;
-            console.log("employer_id", employer_id);
-
-            const CompanyName = user.company_name;
-            console.log(CompanyName);
-            if (CompanyName) {
-                document.getElementById("companyName").value = user.company_name;
-            }
-
-            // Make the company name field read-only to prevent changes
-            document.getElementById("companyName").setAttribute("readonly", "true");
-
-
-
             let requirements = [];
             let benefits = [];
             let skills = [];

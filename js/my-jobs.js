@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const appliedSearchInput = document.getElementById('applied-search');
     const appliedSearchBtn = document.getElementById('applied-search-btn');
     const statusFilter = document.getElementById('status-filter');
-    const dateFilter = document.getElementById('date-filter');
+    const dateFilterElement = document.getElementById('date-filter'); 
     const filterBtn = document.getElementById('filter-btn');
     const modal = document.getElementById('job-modal');
     const closeModal = document.querySelector('.modal .close');
@@ -343,53 +343,51 @@ document.addEventListener('DOMContentLoaded', function () {
     function openJobDetails(job, type) {
         
         jobDetailContent.innerHTML = `
-            <div class="job-detail-header">
-                <h2>${job.title}</h2>
-                <div class="company-detail">
-                    <div class="company-name">${job.company_name || "No Company"}</div>
-                    <div class="company-location">${job.city}, ${job.region}</div>
+            <div class="job-wrapper">
+                <div class="job-detail-header">
+                    <h2>${job.title}</h2>
+                    <div class="company-detail">
+                        <div class="company-name">${job.company_name || "No Company"}</div>
+                        <div class="company-location">${job.city}, ${job.region}</div>
+                    </div>
+                    <div class="job-highlight">
+                        <div class="salary">${job.salary ? `$${job.salary}` : "Not specified"}</div>
+                        <div class="job-type">${job.contract_type}</div>
+                        <div class="experience-level">${job.experience || "Not specified"}</div>
+                        ${type === 'applied' && job.status ?
+                    `<div class="application-status">
+                                <span class="status-badge ${job.status}">${capitalizeFirstLetter(job.status.replace('_', ' '))}</span>
+                            </div>` :
+                    ''}
+                    </div>
                 </div>
-                <div class="job-highlight">
-                    <div class="salary">${job.salary ? `$${job.salary}` : "Not specified"}</div>
-                    <div class="job-type">${job.contract_type}</div>
-                    <div class="experience-level">${job.experience || "Not specified"}</div>
-                    ${type === 'applied' && job.status ?
-                `<div class="application-status">
-                            <span class="status-badge ${job.status}">${capitalizeFirstLetter(job.status.replace('_', ' '))}</span>
-                        </div>` :
-                ''}
+                <div class="job-description-full">
+                    <h3>Job Description</h3>
+                    ${job.description}
                 </div>
-            </div>
-
-            <div class="job-description-full">
-                <h3>Job Description</h3>
-                ${job.description}
-            </div>
-
-            <div class="job-requirements">
-                <h3>Requirements</h3>
-                <ul>
-                ${Array.isArray(job.requirements) && job.requirements.length ?
-                job.requirements.map(req => `<li>${req}</li>`).join('') :
-                '<li>Not specified</li>'}
-                </ul>
-            </div>
-
-            <div class="job-benefits">
-                <h3>Benefits</h3>
-                <ul>
-                ${Array.isArray(job.benefits) && job.benefits.length ?
-                job.benefits.map(benefit => `<li>${benefit}</li>`).join('') :
-                '<li>Not specified</li>'}
-                </ul>
-            </div>
-
-            <div class="job-skills">
-                <h3>Required Skills</h3>
-                <div class="job-tags">
-                ${Array.isArray(job.required_skills) && job.required_skills.length ?
-                job.required_skills.map(skill => `<span class="job-tag">${skill}</span>`).join('') :
-                'Not specified'}
+                <div class="job-requirements">
+                    <h3>Requirements</h3>
+                    <ul>
+                    ${Array.isArray(job.requirements) && job.requirements.length ?
+                    job.requirements.map(req => `<li>${req}</li>`).join('') :
+                    '<li>Not specified</li>'}
+                    </ul>
+                </div>
+                <div class="job-benefits">
+                    <h3>Benefits</h3>
+                    <ul>
+                    ${Array.isArray(job.benefits) && job.benefits.length ?
+                    job.benefits.map(benefit => `<li>${benefit}</li>`).join('') :
+                    '<li>Not specified</li>'}
+                    </ul>
+                </div>
+                <div class="job-skills">
+                    <h3>Required Skills</h3>
+                    <div class="job-tags">
+                    ${Array.isArray(job.required_skills) && job.required_skills.length ?
+                    job.required_skills.map(skill => `<span class="job-tag">${skill}</span>`).join('') :
+                    'Not specified'}
+                    </div>
                 </div>
             </div>
         `;
@@ -552,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function () {
     appliedSearchBtn.addEventListener('click', () => {
         const searchTerm = appliedSearchInput.value.trim();
         const status = statusFilter.value;
-        const dateFilter = dateFilter.value;
+        const dateFilterValue = dateFilterElement.value;
 
         let filteredJobs = [...appliedJobs];
 
@@ -567,8 +565,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Apply date filter
-        if (dateFilter) {
-            const cutoffDate = getPastDate(dateFilter);
+        if (dateFilterValue) {
+            const cutoffDate = getPastDate(dateFilterValue);
             filteredJobs = filteredJobs.filter(job => new Date(job.created_at) >= cutoffDate);
         }
 

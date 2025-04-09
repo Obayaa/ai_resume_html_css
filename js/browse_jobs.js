@@ -370,17 +370,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(applicationData),
                 mode: "cors"
             });
-            
+
             const data = await response.json();
             console.log("Server Response:", data); // ✅ Debug response
 
-           
-           if (data.status_code === "AR00") {
-            showToast(data.message)
-           } else {
-            showToast(data.message)
-           }
-           
+
+            if (data.status_code === "AR00") {
+                showToast("Job application sent successfully!", "success");
+            } else {
+                showToast(data.message)
+            }
+
         } catch (error) {
             showToast("Network error. Please try again later.", "error");
             console.error("Error:", error);
@@ -451,11 +451,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.status_code === "AR00") {
                 showToast("Job application saved successfully!", "success");
-                fetchJobs(); // 🔄 Refresh job list after applying
-            } else if (data.status_code === "AR05") {
-                showToast("You have already saved this job.", "warning");
+                fetchJobs();
             } else {
-                showToast(data.message || "Failed to save the job.", "error");
+                showToast(data.message)
             }
         } catch (error) {
             showToast("Network error. Please try again later.", "error");
